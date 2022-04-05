@@ -1,6 +1,7 @@
 package nl.roka.chess;
 
 import nl.roka.chess.move.Move;
+import nl.roka.chess.piece.Piece;
 
 public class ClassicMoveValidator implements MoveValidator {
 	@Override
@@ -10,7 +11,7 @@ public class ClassicMoveValidator implements MoveValidator {
 
 		var allowedToMove = switch (pieceToMove.getMoveType(move.posFrom(), move.posTo())) {
 			case NotAllowed -> false;
-			case Passive -> pieceAtDestination.equals(Piece.None);
+			case Passive -> pieceAtDestination.equals(Piece.emptySquare);
 		};
 
 		return allowedToMove ? MoveValidation.Valid : MoveValidation.Illegal;

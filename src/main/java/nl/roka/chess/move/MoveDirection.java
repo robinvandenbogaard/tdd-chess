@@ -1,6 +1,6 @@
 package nl.roka.chess.move;
 
-public enum MoveDirection {
+enum MoveDirection {
 	Up(1), Down(-1);
 
 	private final int forward;

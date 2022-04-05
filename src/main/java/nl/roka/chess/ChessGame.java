@@ -2,6 +2,8 @@ package nl.roka.chess;
 
 import nl.roka.chess.move.Move;
 import nl.roka.chess.move.Position;
+import nl.roka.chess.piece.Piece;
+import nl.roka.chess.piece.PieceFactory;
 
 public class ChessGame {
 
@@ -9,11 +11,11 @@ public class ChessGame {
 	private final MoveValidator validator;
 
 	public ChessGame() {
-		this(new Board());
+		this(new Board(new PieceFactory()));
 	}
 
 	ChessGame(MoveValidator validator) {
-		this(new Board(), validator);
+		this(new Board(new PieceFactory()), validator);
 	}
 
 	private ChessGame(Board board) {

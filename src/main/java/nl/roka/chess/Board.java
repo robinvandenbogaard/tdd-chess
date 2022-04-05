@@ -2,20 +2,22 @@ package nl.roka.chess;
 
 import nl.roka.chess.move.Move;
 import nl.roka.chess.move.Position;
+import nl.roka.chess.piece.Piece;
+import nl.roka.chess.piece.PieceFactory;
 
 import java.util.Arrays;
 
-public record Board(Piece[][] pieces) {
+public record Board(Piece[][] pieces, PieceFactory factory) {
 
-	public Board() {
-		this(empty());
+	public Board(PieceFactory factory) {
+		this(empty(), factory);
 	}
 
 	public static Piece[][] empty() {
 		var board = new Piece[8][8];
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				board[i][j] = Piece.None;
+				board[i][j] = Piece.emptySquare;
 			}
 		}
 		return board;
@@ -23,29 +25,29 @@ public record Board(Piece[][] pieces) {
 
 	public Board reset() {
 		var board = empty();
-		board[7][0] = Piece.BlackRook;
-		board[7][1] = Piece.BlackHorse;
-		board[7][2] = Piece.BlackBishop;
-		board[7][3] = Piece.BlackKing;
-		board[7][4] = Piece.BlackQueen;
-		board[7][5] = Piece.BlackBishop;
-		board[7][6] = Piece.BlackHorse;
-		board[7][7] = Piece.BlackRook;
+		board[7][0] = factory.blackRook();
+		board[7][1] = factory.blackKnight();
+		board[7][2] = factory.blackBishop();
+		board[7][3] = factory.blackKing();
+		board[7][4] = factory.blackQueen();
+		board[7][5] = factory.blackBishop();
+		board[7][6] = factory.blackKnight();
+		board[7][7] = factory.blackRook();
 
-		board[0][0] = Piece.WhiteRook;
-		board[0][1] = Piece.WhiteHorse;
-		board[0][2] = Piece.WhiteBishop;
-		board[0][3] = Piece.WhiteQueen;
-		board[0][4] = Piece.WhiteKing;
-		board[0][5] = Piece.WhiteBishop;
-		board[0][6] = Piece.WhiteHorse;
-		board[0][7] = Piece.WhiteRook;
+		board[0][0] = factory.whiteRook();
+		board[0][1] = factory.whiteKnight();
+		board[0][2] = factory.whiteBishop();
+		board[0][3] = factory.whiteQueen();
+		board[0][4] = factory.whiteKing();
+		board[0][5] = factory.whiteBishop();
+		board[0][6] = factory.whiteKnight();
+		board[0][7] = factory.whiteRook();
 
 		for (int i = 0; i < 8; i++) {
-			board[6][i] = Piece.BlackPawn;
-			board[1][i] = Piece.WhitePawn;
+			board[6][i] = factory.blackPawn();
+			board[1][i] = factory.whitePawn();
 		}
-		return new Board(board);
+		return new Board(board, factory);
 	}
 
 	public Piece pieceAt(Position position) {
@@ -54,9 +56,9 @@ public record Board(Piece[][] pieces) {
 
 	public Board move(Move move) {
 		var pieces = copy();
-		pieces[move.posFrom().row()][move.posFrom().column()] = Piece.None;
+		pieces[move.posFrom().row()][move.posFrom().column()] = Piece.emptySquare;
 		pieces[move.posTo().row()][move.posTo().column()] = move.pieceToMove();
-		return new Board(pieces);
+		return new Board(pieces, factory);
 	}
 
 	private Piece[][] copy() {

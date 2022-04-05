@@ -8,7 +8,7 @@ import static nl.roka.chess.move.MoveType.NotAllowed;
 import static nl.roka.chess.move.MoveType.Passive;
 import static nl.roka.chess.move.Position.root;
 
-public class PawnMovement implements MovementStrategy {
+class PawnMovement implements MovementStrategy {
 	private final MoveDirection direction;
 	private final Map<Position, MoveType> moveVectors;
 	private final Tuple2<Position, MoveType> firstMoveVector;
