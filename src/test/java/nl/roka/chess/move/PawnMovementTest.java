@@ -1,12 +1,12 @@
-package nl.roka.chess;
+package nl.roka.chess.move;
 
 import org.junit.jupiter.api.Test;
 
-import static nl.roka.chess.MoveType.NotAllowed;
-import static nl.roka.chess.MoveType.Passive;
 import static nl.roka.chess.Piece.BlackPawn;
 import static nl.roka.chess.Piece.WhitePawn;
-import static nl.roka.chess.Position.position;
+import static nl.roka.chess.move.MoveType.NotAllowed;
+import static nl.roka.chess.move.MoveType.Passive;
+import static nl.roka.chess.move.Position.position;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 

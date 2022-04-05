@@ -1,5 +1,8 @@
 package nl.roka.chess;
 
+import nl.roka.chess.move.Move;
+import nl.roka.chess.move.Position;
+
 import java.util.Arrays;
 
 public record Board(Piece[][] pieces) {
@@ -58,6 +61,6 @@ public record Board(Piece[][] pieces) {
 
 	private Piece[][] copy() {
 		return Arrays.stream(pieces).
-			  map(Piece[]::clone).toArray(a -> pieces.clone());
+					 map(Piece[]::clone).toArray(a -> pieces.clone());
 	}
 }

@@ -1,13 +1,12 @@
-package nl.roka.chess;
-
+package nl.roka.chess.move;
 
 import io.vavr.Tuple2;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.Map;
 
-import static nl.roka.chess.MoveType.NotAllowed;
-import static nl.roka.chess.MoveType.Passive;
-import static nl.roka.chess.Position.root;
+import static nl.roka.chess.move.MoveType.NotAllowed;
+import static nl.roka.chess.move.MoveType.Passive;
+import static nl.roka.chess.move.Position.root;
 
 public class PawnMovement implements MovementStrategy {
 	private final MoveDirection direction;

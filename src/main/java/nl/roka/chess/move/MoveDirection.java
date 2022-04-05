@@ -1,4 +1,4 @@
-package nl.roka.chess;
+package nl.roka.chess.move;
 
 public enum MoveDirection {
 	Up(1), Down(-1);

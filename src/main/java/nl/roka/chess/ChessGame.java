@@ -1,5 +1,8 @@
 package nl.roka.chess;
 
+import nl.roka.chess.move.Move;
+import nl.roka.chess.move.Position;
+
 public class ChessGame {
 
 	private final Board board;
@@ -9,15 +12,15 @@ public class ChessGame {
 		this(new Board());
 	}
 
-	public ChessGame(Board board) {
-		this(board, new ClassicMoveValidator());
-	}
-
-	public ChessGame(MoveValidator validator) {
+	ChessGame(MoveValidator validator) {
 		this(new Board(), validator);
 	}
 
-	public ChessGame(Board board, MoveValidator validator) {
+	private ChessGame(Board board) {
+		this(board, new ClassicMoveValidator());
+	}
+
+	private ChessGame(Board board, MoveValidator validator) {
 		this.board = board;
 		this.validator = validator;
 	}

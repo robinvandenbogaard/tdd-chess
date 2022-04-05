@@ -1,4 +1,4 @@
-package nl.roka.chess;
+package nl.roka.chess.move;
 
 /**
  * NotAllowed means you can not make that move

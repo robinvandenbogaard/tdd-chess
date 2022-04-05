@@ -1,4 +1,4 @@
-package nl.roka.chess;
+package nl.roka.chess.move;
 
 public record Position(int row, int column) {
 	private static final String COLUMN = "abcdefgh";

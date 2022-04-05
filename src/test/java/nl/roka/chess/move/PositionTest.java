@@ -1,11 +1,11 @@
-package nl.roka.chess;
+package nl.roka.chess.move;
 
 import org.junit.jupiter.api.Test;
 
-import static nl.roka.chess.MoveDirection.Down;
-import static nl.roka.chess.MoveDirection.Up;
-import static nl.roka.chess.Position.root;
-import static nl.roka.chess.Position.vector;
+import static nl.roka.chess.move.MoveDirection.Down;
+import static nl.roka.chess.move.MoveDirection.Up;
+import static nl.roka.chess.move.Position.root;
+import static nl.roka.chess.move.Position.vector;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
