@@ -8,14 +8,15 @@ import static nl.roka.chess.move.MoveType.NotAllowed;
 import static nl.roka.chess.move.Position.root;
 
 public class KnightMovementStrategy implements MovementStrategy {
-	private final Set<Position> moveVectors = HashSet.of(root().add(-2, -1),
-														 root().add(-2, 1),
-														 root().add(-1, -2),
-														 root().add(-1, 2),
-														 root().add(1, 2),
-														 root().add(1, -2),
-														 root().add(2, 1),
-														 root().add(2, -1));
+
+	private final Set<Position> moveVectors = HashSet.of(root().up().up().left(),
+														 root().up().up().right(),
+														 root().down().down().left(),
+														 root().down().down().right(),
+														 root().left().left().up(),
+														 root().left().left().down(),
+														 root().right().right().up(),
+														 root().right().right().down());
 
 	@Override
 	public MoveType getMoveType(Position positionFrom, Position positionTo) {

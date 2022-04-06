@@ -47,5 +47,13 @@ public record Position(int row, int column) {
 	public Position add(int row, int column) {
 		return vector(this.row + row, this.column + column);
 	}
+
+	public Position up() {
+		return vector(this.row + 1, this.column);
+	}
+
+	public Position down() {
+		return vector(this.row - 1, this.column);
+	}
 }
 
