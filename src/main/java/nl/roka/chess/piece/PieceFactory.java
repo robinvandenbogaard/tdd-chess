@@ -1,6 +1,7 @@
 package nl.roka.chess.piece;
 
 import nl.roka.chess.move.MovementStrategy;
+import nl.roka.chess.move.RookMovementStrategy;
 
 import java.util.Arrays;
 import java.util.function.Function;
@@ -18,7 +19,7 @@ public class PieceFactory {
 	}
 
 	public Piece whiteRook() {
-		return builder().type(Rook).movement(MovementStrategy::pawn).white().build();
+		return builder().type(Rook).movement(new RookMovementStrategy()).white().build();
 	}
 
 	public Piece whiteBishop() {
@@ -42,7 +43,7 @@ public class PieceFactory {
 	}
 
 	public Piece blackRook() {
-		return builder().type(Rook).movement(MovementStrategy::pawn).black().build();
+		return builder().type(Rook).movement(new RookMovementStrategy()).black().build();
 	}
 
 	public Piece blackBishop() {
