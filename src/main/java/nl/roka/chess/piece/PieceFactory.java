@@ -30,7 +30,7 @@ public class PieceFactory {
 	}
 
 	public Piece whiteKing() {
-		return builder().type(King).movement(MovementStrategy::pawn).white().build();
+		return builder().type(King).movement(new KingMovementStrategy()).white().build();
 	}
 
 	public Piece whiteQueen() {
@@ -54,7 +54,7 @@ public class PieceFactory {
 	}
 
 	public Piece blackKing() {
-		return builder().type(King).movement(MovementStrategy::pawn).black().build();
+		return builder().type(King).movement(new KingMovementStrategy()).black().build();
 	}
 
 	public Piece blackQueen() {
