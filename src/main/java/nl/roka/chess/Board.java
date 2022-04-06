@@ -9,6 +9,10 @@ import java.util.Arrays;
 
 public record Board(Piece[][] pieces, PieceFactory factory) {
 
+	public Board() {
+		this(new PieceFactory());
+	}
+
 	public Board(PieceFactory factory) {
 		this(empty(), factory);
 	}

@@ -61,7 +61,7 @@ public class PieceFactory {
 		return builder().type(Queen).movement(MovementStrategy::pawn).black().build();
 	}
 
-	private static class PieceBuilder {
+	public static class PieceBuilder {
 		private Function<Color, MovementStrategy> movementFunction;
 		private MovementStrategy movementStrategy;
 		private PieceType type;

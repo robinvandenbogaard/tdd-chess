@@ -11,4 +11,8 @@ public interface Piece {
 										MovementStrategy.pawn(Color.White));
 
 	MoveType getMoveType(Position posFrom, Position posTo);
+
+	boolean isHostile(Color color);
+
+	Color getColor();
 }

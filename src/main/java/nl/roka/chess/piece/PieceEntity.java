@@ -24,6 +24,16 @@ final class PieceEntity implements Piece {
 	}
 
 	@Override
+	public boolean isHostile(Color color) {
+		return !this.color.equals(color);
+	}
+
+	@Override
+	public Color getColor() {
+		return color;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) return true;
 		if (obj == null || obj.getClass() != this.getClass()) return false;

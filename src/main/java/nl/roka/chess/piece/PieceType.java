@@ -1,5 +1,5 @@
 package nl.roka.chess.piece;
 
-enum PieceType {
+public enum PieceType {
 	Pawn, Rook, Bishop, Knight, King, Queen, EmptySquare
 }
