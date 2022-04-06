@@ -1,10 +1,10 @@
 package nl.roka.chess.move;
 
+import io.vavr.collection.List;
 import nl.roka.chess.piece.Piece;
 import nl.roka.chess.piece.PieceFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static nl.roka.chess.move.MoveType.Attack;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,24 +12,28 @@ import static org.hamcrest.Matchers.is;
 
 class RookMovementStrategyTest {
 
-	private Piece rook;
+	private final static Piece rook = new PieceFactory().whiteRook();
+	private final static Position startingPosition = Position.position("d4");
 
-	@BeforeEach
-	void setup() {
-		rook = new PieceFactory().whiteRook();
+	public static List<Position> rookCanMoveHorizontally() {
+		return List.of("a4", "b4", "c4", "e4", "f4", "g4", "f4").map(Position::position);
+	}
+
+	public static List<Position> rookCanMoveVertically() {
+		return List.of("d1", "d2", "d3", "d5", "d6", "d7", "d8").map(Position::position);
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"a4", "b4", "c4", "e4", "f4", "g4", "f4"})
-	void rookCanMoveHorizontally(String target) {
-		var moveType = rook.getMoveType(Position.position("d4"), Position.position(target));
+	@MethodSource
+	void rookCanMoveHorizontally(Position target) {
+		var moveType = rook.getMoveType(startingPosition, target);
 		assertThat(moveType, is(Attack));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"a1", "a2", "a3", "a5", "a6", "a7", "a8"})
-	void rookCanMoveVertically(String target) {
-		var moveType = rook.getMoveType(Position.position("a4"), Position.position(target));
+	@MethodSource
+	void rookCanMoveVertically(Position target) {
+		var moveType = rook.getMoveType(startingPosition, target);
 		assertThat(moveType, is(Attack));
 	}
 }
