@@ -1,29 +1,42 @@
 package nl.roka.chess.move;
 
+import io.vavr.collection.HashSet;
+import io.vavr.collection.Set;
 import nl.roka.chess.piece.Piece;
 import nl.roka.chess.piece.PieceFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static nl.roka.chess.move.MoveType.Attack;
+import static nl.roka.chess.move.MoveType.NotAllowed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 class BishopMovementStrategyTest {
 
-	private Piece bishop;
+	private final static Piece bishop = new PieceFactory().whiteBishop();
+	private final static Position startingPosition = Position.position("d4");
 
-	@BeforeEach
-	void setup() {
-		bishop = new PieceFactory().whiteBishop();
+	public static Set<Position> canAttackDiagonally() {
+		return HashSet.of("a1", "b2", "c3", "e5", "f6", "g7", "h8",
+						  "a7", "b6", "c5", "e3", "f2", "g1").map(Position::position);
+	}
+
+	public static Set<Position> cannotMoveOtherThenDiagonally() {
+		return PositionCollections.allPositions.removeAll(canAttackDiagonally()).remove(startingPosition);
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"a1", "b2", "c3", "e5", "f6", "g7",
-			"a7", "b6", "c5", "e3", "f2", "g1"})
-	void canMoveDiagonally(String target) {
-		var moveType = bishop.getMoveType(Position.position("d4"), Position.position(target));
+	@MethodSource
+	void canAttackDiagonally(Position target) {
+		var moveType = bishop.getMoveType(startingPosition, target);
 		assertThat(moveType, is(Attack));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void cannotMoveOtherThenDiagonally(Position target) {
+		var moveType = bishop.getMoveType(startingPosition, target);
+		assertThat(moveType, is(NotAllowed));
 	}
 }
