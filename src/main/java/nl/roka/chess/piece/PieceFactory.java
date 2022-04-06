@@ -1,6 +1,7 @@
 package nl.roka.chess.piece;
 
 import nl.roka.chess.move.BishopMovementStrategy;
+import nl.roka.chess.move.KnightMovementStrategy;
 import nl.roka.chess.move.MovementStrategy;
 import nl.roka.chess.move.RookMovementStrategy;
 
@@ -28,7 +29,7 @@ public class PieceFactory {
 	}
 
 	public Piece whiteKnight() {
-		return builder().type(Knight).movement(MovementStrategy::pawn).white().build();
+		return builder().type(Knight).movement(new KnightMovementStrategy()).white().build();
 	}
 
 	public Piece whiteKing() {
@@ -52,7 +53,7 @@ public class PieceFactory {
 	}
 
 	public Piece blackKnight() {
-		return builder().type(Knight).movement(MovementStrategy::pawn).black().build();
+		return builder().type(Knight).movement(new KnightMovementStrategy()).black().build();
 	}
 
 	public Piece blackKing() {
