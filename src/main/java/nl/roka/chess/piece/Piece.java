@@ -15,4 +15,6 @@ public interface Piece {
 	boolean isHostile(Color color);
 
 	Color getColor();
+
+	PieceType getPieceType();
 }

@@ -34,6 +34,11 @@ final class PieceEntity implements Piece {
 	}
 
 	@Override
+	public PieceType getPieceType() {
+		return type;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) return true;
 		if (obj == null || obj.getClass() != this.getClass()) return false;
