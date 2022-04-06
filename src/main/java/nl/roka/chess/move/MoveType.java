@@ -7,6 +7,6 @@ package nl.roka.chess.move;
 
 public enum MoveType {
 	NotAllowed,
-	Aggressive,
+	Attack,
 	Passive
 }

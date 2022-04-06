@@ -93,6 +93,6 @@ class ClassicMoveValidatorTest {
 
 	private Piece createMustAttackMovePiece() {
 		return new PieceFactory().builder().type(PieceType.Pawn).black().movement(
-				(positionFrom, positionTo) -> MoveType.Aggressive).build();
+				(positionFrom, positionTo) -> MoveType.Attack).build();
 	}
 }

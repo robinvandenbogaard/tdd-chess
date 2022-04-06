@@ -4,8 +4,7 @@ import io.vavr.Tuple2;
 import io.vavr.collection.HashMap;
 import io.vavr.collection.Map;
 
-import static nl.roka.chess.move.MoveType.NotAllowed;
-import static nl.roka.chess.move.MoveType.Passive;
+import static nl.roka.chess.move.MoveType.*;
 import static nl.roka.chess.move.Position.root;
 
 class PawnMovement implements MovementStrategy {
@@ -16,7 +15,9 @@ class PawnMovement implements MovementStrategy {
 	public PawnMovement(MoveDirection d) {
 		this.direction = d;
 		this.firstMoveVector = new Tuple2<>(root().forward(d).forward(d), Passive);
-		this.moveVectors = HashMap.of(root().forward(d), Passive);
+		this.moveVectors = HashMap.of(root().forward(d), Passive,
+									  root().forward(d).left(), Attack,
+									  root().forward(d).right(), Attack);
 	}
 
 	@Override

@@ -35,5 +35,13 @@ public record Position(int row, int column) {
 	public Position backward(MoveDirection direction) {
 		return vector(row - direction.forward(), column);
 	}
+
+	public Position right() {
+		return vector(row, column + 1);
+	}
+
+	public Position left() {
+		return vector(row, column - 1);
+	}
 }
 
