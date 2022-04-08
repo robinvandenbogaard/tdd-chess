@@ -2,7 +2,7 @@ package nl.roka.chess.move;
 
 import io.vavr.collection.Set;
 
-import static nl.roka.chess.move.MoveType.Attack;
+import static nl.roka.chess.move.MoveType.AttackOrMove;
 import static nl.roka.chess.move.MoveType.NotAllowed;
 
 public class RookMovementStrategy implements MovementStrategy {
@@ -10,6 +10,7 @@ public class RookMovementStrategy implements MovementStrategy {
 
 	@Override
 	public MoveType getMoveType(Position positionFrom, Position positionTo) {
-		return moveVectors.remove(Position.root()).contains(positionTo.subtract(positionFrom)) ? Attack : NotAllowed;
+		return moveVectors.remove(Position.root())
+						  .contains(positionTo.subtract(positionFrom)) ? AttackOrMove : NotAllowed;
 	}
 }

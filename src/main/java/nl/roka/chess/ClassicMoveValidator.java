@@ -9,14 +9,17 @@ public class ClassicMoveValidator implements MoveValidator {
 		var pieceToMove = move.pieceToMove();
 		var pieceAtDestination = move.pieceAtDestination();
 
-		var allowedToMove = switch (pieceToMove.getMoveType(move.posFrom(), move.posTo())) {
-			case Attack -> pieceAtDestination.isHostile(pieceToMove.getColor());
-			case AttackOnly -> pieceAtDestination.isHostile(pieceToMove.getColor()) && !pieceAtDestination.equals(
-					Piece.emptySquare);
+		var allowedToMove = isAllowedToMove(move, pieceToMove, pieceAtDestination);
+
+		return allowedToMove ? MoveValidation.Valid : MoveValidation.Illegal;
+	}
+
+	private boolean isAllowedToMove(Move move, Piece pieceToMove, Piece pieceAtDestination) {
+		return switch (pieceToMove.getMoveType(move.posFrom(), move.posTo())) {
+			case AttackOrMove -> pieceAtDestination.isEmpty() || pieceAtDestination.isHostile(pieceToMove.getColor());
+			case AttackOnly -> pieceAtDestination.isNotEmpty() && pieceAtDestination.isHostile(pieceToMove.getColor());
 			case NotAllowed -> false;
 			case Passive -> pieceAtDestination.equals(Piece.emptySquare);
 		};
-
-		return allowedToMove ? MoveValidation.Valid : MoveValidation.Illegal;
 	}
 }

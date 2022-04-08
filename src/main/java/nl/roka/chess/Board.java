@@ -21,7 +21,7 @@ public record Board(Piece[][] pieces, PieceFactory factory) {
 		var board = new Piece[8][8];
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				board[i][j] = Piece.emptySquare;
+				board[i][j] = Piece.emptySpot;
 			}
 		}
 		return board;
@@ -60,7 +60,7 @@ public record Board(Piece[][] pieces, PieceFactory factory) {
 
 	public Board move(Move move) {
 		var pieces = copy();
-		pieces[move.posFrom().row()][move.posFrom().column()] = Piece.emptySquare;
+		pieces[move.posFrom().row()][move.posFrom().column()] = Piece.emptySpot;
 		pieces[move.posTo().row()][move.posTo().column()] = move.pieceToMove();
 		return new Board(pieces, factory);
 	}

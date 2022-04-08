@@ -3,7 +3,7 @@ package nl.roka.chess.move;
 import io.vavr.collection.HashSet;
 import io.vavr.collection.Set;
 
-import static nl.roka.chess.move.MoveType.Attack;
+import static nl.roka.chess.move.MoveType.AttackOrMove;
 import static nl.roka.chess.move.MoveType.NotAllowed;
 import static nl.roka.chess.move.Position.root;
 
@@ -20,6 +20,6 @@ public class KnightMovementStrategy implements MovementStrategy {
 
 	@Override
 	public MoveType getMoveType(Position positionFrom, Position positionTo) {
-		return moveVectors.contains(positionTo.subtract(positionFrom)) ? Attack : NotAllowed;
+		return moveVectors.contains(positionTo.subtract(positionFrom)) ? AttackOrMove : NotAllowed;
 	}
 }

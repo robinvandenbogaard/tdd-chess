@@ -7,7 +7,7 @@ import nl.roka.chess.piece.PieceFactory;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static nl.roka.chess.move.MoveType.Attack;
+import static nl.roka.chess.move.MoveType.AttackOrMove;
 import static nl.roka.chess.move.MoveType.NotAllowed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -34,14 +34,14 @@ class RookMovementStrategyTest {
 	@MethodSource
 	void rookCanMoveHorizontally(Position target) {
 		var moveType = rook.getMoveType(startingPosition, target);
-		assertThat(moveType, is(Attack));
+		assertThat(moveType, is(AttackOrMove));
 	}
 
 	@ParameterizedTest
 	@MethodSource
 	void rookCanMoveVertically(Position target) {
 		var moveType = rook.getMoveType(startingPosition, target);
-		assertThat(moveType, is(Attack));
+		assertThat(moveType, is(AttackOrMove));
 	}
 
 	@ParameterizedTest
