@@ -93,7 +93,7 @@ class ChessGameTest {
 	}
 
 	@Test
-	void cannotMakeInvalidMoveGetsExecuted() {
+	void cannotMakeInvalidMove() {
 		var game = new ChessGame((move, board) -> MoveValidation.Illegal).reset();
 		assertThrows(IllegalArgumentException.class, () -> game.move("a2", "a3"));
 	}
