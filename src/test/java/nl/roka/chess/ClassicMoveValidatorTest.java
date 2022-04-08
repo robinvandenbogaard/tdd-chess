@@ -107,4 +107,14 @@ class ClassicMoveValidatorTest {
 
 		assertThat(moveValidation, is(MoveValidation.Illegal));
 	}
+
+	@Test
+	void ifPathToTargetIsObstructedMoveIsIllegal() {
+		var move = new Move(position("a1"), blackQueen, position("a8"), emptySpot);
+		var board = BoardBuilder.empty().pieceAt(blackQueen, "a1").pieceAt(blackPawn, "a2").build();
+
+		var moveValidation = validator.validate(move, board);
+
+		assertThat(moveValidation, is(MoveValidation.Illegal));
+	}
 }
