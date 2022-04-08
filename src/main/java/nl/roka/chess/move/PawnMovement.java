@@ -16,8 +16,8 @@ class PawnMovement implements MovementStrategy {
 		this.direction = d;
 		this.firstMoveVector = new Tuple2<>(root().forward(d).forward(d), Passive);
 		this.moveVectors = HashMap.of(root().forward(d), Passive,
-									  root().forward(d).left(), Attack,
-									  root().forward(d).right(), Attack);
+									  root().forward(d).left(), AttackOnly,
+									  root().forward(d).right(), AttackOnly);
 	}
 
 	@Override

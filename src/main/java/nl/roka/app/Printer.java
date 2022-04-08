@@ -8,7 +8,7 @@ public class Printer {
 
 
 	public void print(ChessGame currentGame) {
-		println("  a b c d e f g h");
+		println("\t\ta\tb\tc\td\te\tf\tg\th");
 		for (int row = 0; row < 8; row++) {
 			print(row + 1);
 			for (int column = 0; column < 8; column++) {
@@ -19,7 +19,7 @@ public class Printer {
 	}
 
 	private void print(int row) {
-		System.out.print(row + " ");
+		System.out.print(row + "\t");
 	}
 
 	private void print(Piece piece) {
@@ -32,7 +32,7 @@ public class Printer {
 			case Queen -> piece.getColor().equals(Color.White) ? "♛" : "♕";
 			case EmptySquare -> " ";
 		};
-		System.out.print(pieceText);
+		System.out.print("\t" + pieceText);
 	}
 
 	private String toPos(int row, int column) {

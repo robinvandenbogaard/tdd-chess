@@ -18,6 +18,7 @@ class ClassicMoveValidatorTest {
 	private Piece passivePiece;
 	private Piece unableToMovePiece;
 	private Piece aggressivePiece;
+	private Piece attackOnlyPiece;
 
 	@BeforeEach
 	void setUp() {
@@ -25,6 +26,7 @@ class ClassicMoveValidatorTest {
 		passivePiece = createPassiveMovePiece();
 		unableToMovePiece = createUnableToMovePiece();
 		aggressivePiece = createMustAttackMovePiece();
+		attackOnlyPiece = createAttackOnlyMovePiece();
 	}
 
 	@Test
@@ -81,6 +83,33 @@ class ClassicMoveValidatorTest {
 		assertThat(moveValidation, is(MoveValidation.Illegal));
 	}
 
+	@Test
+	void ifPieceCanAttackOnlyHostilePieceMustBeAtTarget() {
+		var move = new Move(Position.position("a1"), attackOnlyPiece, Position.position("a1"), unableToMovePiece);
+
+		var moveValidation = validator.validate(move, new Board().reset());
+
+		assertThat(moveValidation, is(MoveValidation.Valid));
+	}
+
+	@Test
+	void ifPieceCanAttackOnlyCannotMoveToSpotWithAFriendlyPieceOnIt() {
+		var move = new Move(Position.position("a1"), attackOnlyPiece, Position.position("a1"), aggressivePiece);
+
+		var moveValidation = validator.validate(move, new Board().reset());
+
+		assertThat(moveValidation, is(MoveValidation.Illegal));
+	}
+
+	@Test
+	void ifPieceCanAttackOnlyCannotMoveToAnEmptySpot() {
+		var move = new Move(Position.position("a1"), attackOnlyPiece, Position.position("a1"), Piece.emptySquare);
+
+		var moveValidation = validator.validate(move, new Board().reset());
+
+		assertThat(moveValidation, is(MoveValidation.Illegal));
+	}
+
 	private Piece createPassiveMovePiece() {
 		return new PieceFactory().builder().type(PieceType.Pawn).white().movement(
 				(positionFrom, positionTo) -> MoveType.Passive).build();
@@ -94,5 +123,10 @@ class ClassicMoveValidatorTest {
 	private Piece createMustAttackMovePiece() {
 		return new PieceFactory().builder().type(PieceType.Pawn).black().movement(
 				(positionFrom, positionTo) -> MoveType.Attack).build();
+	}
+
+	private Piece createAttackOnlyMovePiece() {
+		return new PieceFactory().builder().type(PieceType.Knight).black().movement(
+				(positionFrom, positionTo) -> MoveType.AttackOnly).build();
 	}
 }

@@ -40,7 +40,7 @@ class PawnMovementTest {
 	@ValueSource(strings = {"a3", "c3"})
 	void whitePawnCanAttackDiagonally(String target) {
 		var type = whitePawn.getMoveType(position("b2"), position(target));
-		assertThat(type, is(Attack));
+		assertThat(type, is(AttackOnly));
 	}
 
 	@Test
@@ -77,9 +77,9 @@ class PawnMovementTest {
 
 	@ParameterizedTest
 	@ValueSource(strings = {"a6", "c6"})
-	void blackPawnCanAttackDiagonally(String target) {
+	void blackPawnCanAttackOnlyDiagonally(String target) {
 		var type = blackPawn.getMoveType(position("b7"), position(target));
-		assertThat(type, is(Attack));
+		assertThat(type, is(AttackOnly));
 	}
 
 	@Test
