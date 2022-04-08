@@ -1,131 +1,109 @@
 package nl.roka.chess;
 
 import nl.roka.chess.move.Move;
-import nl.roka.chess.move.MoveType;
 import nl.roka.chess.piece.Piece;
 import nl.roka.chess.piece.PieceFactory;
-import nl.roka.chess.piece.PieceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static nl.roka.chess.move.Position.position;
+import static nl.roka.chess.piece.Piece.emptySpot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 class ClassicMoveValidatorTest {
 
 	private ClassicMoveValidator validator;
-	private Piece passivePiece;
-	private Piece unableToMovePiece;
-	private Piece aggressivePiece;
-	private Piece attackOnlyPiece;
+	private Piece blackPawn;
+	private Piece blackQueen;
+	private Piece whitePawn;
 
 	@BeforeEach
 	void setUp() {
 		validator = new ClassicMoveValidator();
-		passivePiece = createPassiveMovePiece();
-		unableToMovePiece = createUnableToMovePiece();
-		aggressivePiece = createMustAttackMovePiece();
-		attackOnlyPiece = createAttackOnlyMovePiece();
-	}
-
-	private Piece createPassiveMovePiece() {
-		return new PieceFactory().builder().type(PieceType.Pawn).white().movement(
-				(positionFrom, positionTo) -> MoveType.Passive).build();
-	}
-
-	private Piece createUnableToMovePiece() {
-		return new PieceFactory().builder().type(PieceType.Pawn).white().movement(
-				(positionFrom, positionTo) -> MoveType.NotAllowed).build();
-	}
-
-	private Piece createMustAttackMovePiece() {
-		return new PieceFactory().builder().type(PieceType.Pawn).black().movement(
-				(positionFrom, positionTo) -> MoveType.Attack).build();
-	}
-
-	private Piece createAttackOnlyMovePiece() {
-		return new PieceFactory().builder().type(PieceType.Knight).black().movement(
-				(positionFrom, positionTo) -> MoveType.AttackOnly).build();
+		var factory = new PieceFactory();
+		blackPawn = factory.blackPawn();
+		blackQueen = factory.blackQueen();
+		whitePawn = factory.whitePawn();
 	}
 
 	@Test
 	void acceptMoveIfTargetIsEmptyAndPieceCanMovePassivelyToTheSpot() {
-		var move = new Move(position("a1"), passivePiece, position("a1"), Piece.emptySquare);
+		var move = new Move(position("a7"), blackPawn, position("a6"), emptySpot);
 
-		var moveValidation = validator.validate(move, new Board().reset());
+		var moveValidation = validator.validate(move, new Board());
 
 		assertThat(moveValidation, is(MoveValidation.Valid));
 	}
 
 	@Test
 	void illegalMoveIfTargetIsNotEmptyAndPieceCanMovePassivelyToTheSpot() {
-		var move = new Move(position("a1"), passivePiece, position("a1"), passivePiece);
+		var move = new Move(position("a1"), blackPawn, position("a2"), blackPawn);
 
-		var moveValidation = validator.validate(move, new Board().reset());
+		var moveValidation = validator.validate(move, new Board());
 
 		assertThat(moveValidation, is(MoveValidation.Illegal));
 	}
 
 	@Test
 	void illegalMoveIfPieceIsNotAllowedToTheTargetSpot() {
-		var move = new Move(position("a1"), unableToMovePiece, position("a1"), passivePiece);
+		var move = new Move(position("a1"), blackPawn, position("h1"), emptySpot);
 
-		var moveValidation = validator.validate(move, new Board().reset());
+		var moveValidation = validator.validate(move, new Board());
 
 		assertThat(moveValidation, is(MoveValidation.Illegal));
 	}
 
 	@Test
-	void canMoveToEmptyTargetIfMoveTypeIsAggressive() {
-		var move = new Move(position("a1"), aggressivePiece, position("a1"), Piece.emptySquare);
+	void canMoveToEmptyTargetIfMoveTypeIsAttack() {
+		var move = new Move(position("a1"), blackQueen, position("a2"), emptySpot);
 
-		var moveValidation = validator.validate(move, new Board().reset());
-
-		assertThat(moveValidation, is(MoveValidation.Valid));
-	}
-
-	@Test
-	void aggressivePieceCanMoveToTargetIfOppositeColorPresent() {
-		var move = new Move(position("a1"), aggressivePiece, position("a1"), unableToMovePiece);
-
-		var moveValidation = validator.validate(move, new Board().reset());
+		var moveValidation = validator.validate(move, new Board());
 
 		assertThat(moveValidation, is(MoveValidation.Valid));
 	}
 
 	@Test
-	void aggressivePieceCannotMoveToTargetIfSameColorPieceIsPresent() {
-		var move = new Move(position("a1"), aggressivePiece, position("a1"), aggressivePiece);
+	void canMoveToTargetIfOppositeColorPresent() {
+		var move = new Move(position("a1"), blackQueen, position("a2"), whitePawn);
 
-		var moveValidation = validator.validate(move, new Board().reset());
+		var moveValidation = validator.validate(move, new Board());
+
+		assertThat(moveValidation, is(MoveValidation.Valid));
+	}
+
+	@Test
+	void cannotMoveToTargetIfSameColorPieceIsPresent() {
+		var move = new Move(position("a7"), blackPawn, position("b6"), blackQueen);
+
+		var moveValidation = validator.validate(move, new Board());
 
 		assertThat(moveValidation, is(MoveValidation.Illegal));
 	}
 
 	@Test
 	void ifPieceCanAttackOnlyHostilePieceMustBeAtTarget() {
-		var move = new Move(position("a1"), attackOnlyPiece, position("a1"), unableToMovePiece);
+		var move = new Move(position("a7"), blackPawn, position("b6"), whitePawn);
 
-		var moveValidation = validator.validate(move, new Board().reset());
+		var moveValidation = validator.validate(move, new Board());
 
 		assertThat(moveValidation, is(MoveValidation.Valid));
 	}
 
 	@Test
 	void ifPieceCanAttackOnlyCannotMoveToSpotWithAFriendlyPieceOnIt() {
-		var move = new Move(position("a1"), attackOnlyPiece, position("a1"), aggressivePiece);
+		var move = new Move(position("a7"), blackPawn, position("b6"), blackPawn);
 
-		var moveValidation = validator.validate(move, new Board().reset());
+		var moveValidation = validator.validate(move, new Board());
 
 		assertThat(moveValidation, is(MoveValidation.Illegal));
 	}
 
 	@Test
 	void ifPieceCanAttackOnlyCannotMoveToAnEmptySpot() {
-		var move = new Move(position("a1"), attackOnlyPiece, position("a1"), Piece.emptySquare);
+		var move = new Move(position("a7"), blackPawn, position("b6"), emptySpot);
 
-		var moveValidation = validator.validate(move, new Board().reset());
+		var moveValidation = validator.validate(move, new Board());
 
 		assertThat(moveValidation, is(MoveValidation.Illegal));
 	}

@@ -23,7 +23,7 @@ class ChessGameTest {
 	void newChessBoardHasEightRows() {
 		var game = new ChessGame();
 		for (int i = 1; i <= 8; i++) {
-			assertThat(game.getPieceAt("a%d".formatted(i)), is(Piece.emptySquare));
+			assertThat(game.getPieceAt("a%d".formatted(i)), is(Piece.emptySpot));
 		}
 	}
 
@@ -88,7 +88,7 @@ class ChessGameTest {
 	@Test
 	void aValidMoveGetsExecuted() {
 		var game = new ChessGame((move, board) -> MoveValidation.Valid).reset().move("a2", "a3");
-		assertThat(game.getPieceAt("a2"), is(Piece.emptySquare));
+		assertThat(game.getPieceAt("a2"), is(Piece.emptySpot));
 		assertThat(game.getPieceAt("a3"), is(factory.whitePawn()));
 	}
 

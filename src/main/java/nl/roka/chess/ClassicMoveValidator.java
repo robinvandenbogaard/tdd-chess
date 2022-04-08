@@ -19,7 +19,7 @@ public class ClassicMoveValidator implements MoveValidator {
 			case AttackOrMove -> pieceAtDestination.isEmpty() || pieceAtDestination.isHostile(pieceToMove.getColor());
 			case AttackOnly -> pieceAtDestination.isNotEmpty() && pieceAtDestination.isHostile(pieceToMove.getColor());
 			case NotAllowed -> false;
-			case Passive -> pieceAtDestination.equals(Piece.emptySquare);
+			case Passive -> pieceAtDestination.equals(Piece.emptySpot);
 		};
 	}
 }

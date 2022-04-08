@@ -39,6 +39,16 @@ final class PieceEntity implements Piece {
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return this.equals(emptySpot);
+	}
+
+	@Override
+	public boolean isNotEmpty() {
+		return !isEmpty();
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) return true;
 		if (obj == null || obj.getClass() != this.getClass()) return false;

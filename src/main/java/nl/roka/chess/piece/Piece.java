@@ -7,8 +7,8 @@ import nl.roka.chess.move.Position;
 import static nl.roka.chess.piece.PieceType.EmptySquare;
 
 public interface Piece {
-	Piece emptySquare = new PieceEntity(EmptySquare, Color.None,
-										MovementStrategy.pawn(Color.White));
+	Piece emptySpot = new PieceEntity(EmptySquare, Color.None,
+									  MovementStrategy.pawn(Color.White));
 
 	MoveType getMoveType(Position posFrom, Position posTo);
 
@@ -17,4 +17,8 @@ public interface Piece {
 	Color getColor();
 
 	PieceType getPieceType();
+
+	boolean isEmpty();
+
+	boolean isNotEmpty();
 }
