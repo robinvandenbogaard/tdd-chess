@@ -44,10 +44,6 @@ public record Position(int row, int column) {
 		return vector(row, column - 1);
 	}
 
-	public Position add(int row, int column) {
-		return vector(this.row + row, this.column + column);
-	}
-
 	public Position up() {
 		return vector(this.row + 1, this.column);
 	}
