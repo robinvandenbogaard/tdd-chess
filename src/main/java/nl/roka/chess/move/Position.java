@@ -1,5 +1,7 @@
 package nl.roka.chess.move;
 
+import io.vavr.collection.List;
+
 public record Position(int row, int column) {
 	private static final String COLUMN = "abcdefgh";
 	private static final String ROWS = "12345678";
@@ -50,6 +52,32 @@ public record Position(int row, int column) {
 
 	public Position down() {
 		return vector(this.row - 1, this.column);
+	}
+
+	public List<Position> positionsBetween(Position other) {
+		var direction = direction(other);
+		Position inBetween = this.add(direction);
+		List<Position> result = List.of();
+		while (!inBetween.equals(other)) {
+			result = result.append(inBetween);
+			inBetween = inBetween.add(direction);
+		}
+
+		return result;
+	}
+
+	private Position add(Position other) {
+		return vector(this.row + other.row, this.column + other.column);
+	}
+
+	public Position direction(Position other) {
+		return other.subtract(this).normalize();
+	}
+
+	private Position normalize() {
+		var row = this.row != 0 ? this.row / Math.abs(this.row) : 0;
+		var column = this.column != 0 ? this.column / Math.abs(this.column) : 0;
+		return vector(row, column);
 	}
 }
 

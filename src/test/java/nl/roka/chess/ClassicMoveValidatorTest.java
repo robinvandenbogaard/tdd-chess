@@ -109,7 +109,7 @@ class ClassicMoveValidatorTest {
 	}
 
 	@Test
-	void ifPathToTargetIsObstructedMoveIsIllegal() {
+	void ifPathToTargetIsObstructedMoveIsIllegalHorizontal() {
 		var move = new Move(position("a1"), blackQueen, position("a8"), emptySpot);
 		var board = BoardBuilder.empty().pieceAt(blackQueen, "a1").pieceAt(blackPawn, "a2").build();
 
