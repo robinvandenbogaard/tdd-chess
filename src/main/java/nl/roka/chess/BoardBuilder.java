@@ -12,6 +12,10 @@ public final class BoardBuilder {
 		return new BoardBuilder().filledAllWith(Piece.emptySpot);
 	}
 
+	public static BoardBuilder filled(Piece piece) {
+		return new BoardBuilder().filledAllWith(piece);
+	}
+
 	private BoardBuilder filledAllWith(Piece piece) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {

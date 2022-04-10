@@ -16,6 +16,7 @@ class ClassicMoveValidatorTest {
 	private ClassicMoveValidator validator;
 	private Piece blackPawn;
 	private Piece blackQueen;
+	private Piece blackKnight;
 	private Piece whitePawn;
 
 	@BeforeEach
@@ -24,6 +25,7 @@ class ClassicMoveValidatorTest {
 		var factory = new PieceFactory();
 		blackPawn = factory.blackPawn();
 		blackQueen = factory.blackQueen();
+		blackKnight = factory.blackKnight();
 		whitePawn = factory.whitePawn();
 	}
 
@@ -136,5 +138,15 @@ class ClassicMoveValidatorTest {
 		var moveValidation = validator.validate(move, board);
 
 		assertThat(moveValidation, is(MoveValidation.Illegal));
+	}
+
+	@Test
+	void knightIsNeverObstructed() {
+		var move = new Move(position("a1"), blackKnight, position("b3"), emptySpot);
+		var board = BoardBuilder.filled(blackPawn).pieceAt(blackKnight, "a1").pieceAt(emptySpot, "b3").build();
+
+		var moveValidation = validator.validate(move, board);
+
+		assertThat(moveValidation, is(MoveValidation.Valid));
 	}
 }

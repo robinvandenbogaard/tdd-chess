@@ -2,6 +2,7 @@ package nl.roka.chess;
 
 import nl.roka.chess.move.Move;
 import nl.roka.chess.piece.Piece;
+import nl.roka.chess.piece.PieceType;
 
 public class ClassicMoveValidator implements MoveValidator {
 	@Override
@@ -15,6 +16,8 @@ public class ClassicMoveValidator implements MoveValidator {
 	}
 
 	private boolean isNotObstructed(Move move, Board board) {
+		if (move.pieceToMove().getPieceType().equals(PieceType.Knight))
+			return true;
 		var positionsToCheck = move.posTo().positionsBetween(move.posFrom());
 		return positionsToCheck.forAll(position -> board.pieceAt(position).equals(Piece.emptySpot));
 
