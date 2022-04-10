@@ -18,6 +18,7 @@ class ClassicMoveValidatorTest {
 	private Piece blackQueen;
 	private Piece blackKnight;
 	private Piece whitePawn;
+	private Piece blackBishop;
 
 	@BeforeEach
 	void setUp() {
@@ -27,6 +28,7 @@ class ClassicMoveValidatorTest {
 		blackQueen = factory.blackQueen();
 		blackKnight = factory.blackKnight();
 		whitePawn = factory.whitePawn();
+		blackBishop = factory.blackBishop();
 	}
 
 	@Test
@@ -148,5 +150,15 @@ class ClassicMoveValidatorTest {
 		var moveValidation = validator.validate(move, board);
 
 		assertThat(moveValidation, is(MoveValidation.Valid));
+	}
+
+	@Test
+	void bishopCannotMoveLikeAKnight() {
+		var move = new Move(position("c1"), blackBishop, position("b3"), emptySpot);
+		var board = BoardBuilder.empty().pieceAt(blackBishop, "c1").build();
+
+		var moveValidation = validator.validate(move, board);
+
+		assertThat(moveValidation, is(MoveValidation.Illegal));
 	}
 }

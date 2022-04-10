@@ -11,7 +11,7 @@ public class ClassicMoveValidator implements MoveValidator {
 		var pieceAtDestination = move.pieceAtDestination();
 
 		var allowedToMove = isAllowedToMove(move, pieceToMove, pieceAtDestination);
-		allowedToMove &= isNotObstructed(move, board);
+		allowedToMove = allowedToMove && isNotObstructed(move, board);
 		return allowedToMove ? MoveValidation.Valid : MoveValidation.Illegal;
 	}
 
