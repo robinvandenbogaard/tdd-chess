@@ -30,13 +30,13 @@ class ChessGameTest {
 	@Test
 	void rowZeroDoesNotExist() {
 		var game = new ChessGame();
-		assertThrows(IllegalArgumentException.class, () -> game.getPieceAt("a%d".formatted(0)));
+		assertThrows(IllegalArgumentException.class, () -> game.getPieceAt("a0"));
 	}
 
 	@Test
 	void rowNineDoesNotExist() {
 		var game = new ChessGame();
-		assertThrows(IllegalArgumentException.class, () -> game.getPieceAt("a%d".formatted(9)));
+		assertThrows(IllegalArgumentException.class, () -> game.getPieceAt("a9"));
 	}
 
 	@Test
