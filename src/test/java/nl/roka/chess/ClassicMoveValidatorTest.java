@@ -236,4 +236,17 @@ class ClassicMoveValidatorTest {
 		assertThat(moveValidation, is(MoveValidation.Valid));
 	}
 
+	@Test
+	void canObstructPathOfPieceCurrentlyAttackingTheKing() {
+		var move = new Move(position("b3"), whitePawn, position("b4"), emptySpot);
+		var board = BoardBuilder.empty()
+								.pieceAt(whiteKing, "c3")
+								.pieceAt(whitePawn, "b3")
+								.pieceAt(blackQueen, "a5")
+								.build();
+		var moveValidation = validator.validate(move, board);
+
+		assertThat(moveValidation, is(MoveValidation.Valid));
+	}
+
 }
