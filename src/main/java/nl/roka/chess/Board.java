@@ -112,4 +112,16 @@ public record Board(Piece[][] pieces, PieceFactory factory) {
 		}
 		return result;
 	}
+
+	public Map<Position, Piece> getKnightPositions(Color enemyColor) {
+		Map<Position, Piece> knights = HashMap.empty();
+		for (int row = 0; row < 8; row++) {
+			for (int column = 0; column < 8; column++) {
+				Piece piece = pieces[row][column];
+				if (piece.hasColor(enemyColor) && piece.isPieceType(PieceType.Knight))
+					knights = knights.put(vector(row, column), piece);
+			}
+		}
+		return knights;
+	}
 }

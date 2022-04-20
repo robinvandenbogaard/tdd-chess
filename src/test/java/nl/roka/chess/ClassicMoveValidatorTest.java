@@ -209,4 +209,18 @@ class ClassicMoveValidatorTest {
 
 		assertThat(moveValidation, is(MoveValidation.Illegal));
 	}
+
+	@Test
+	void cannotMakeMoveIfKingIsCheckedByAKnight() {
+		var move = new Move(position("d3"), whitePawn, position("d4"), emptySpot);
+		var board = BoardBuilder.empty()
+								.pieceAt(whiteKing, "c3")
+								.pieceAt(whitePawn, "d3")
+								.pieceAt(blackKnight, "e4")
+								.build();
+		var moveValidation = validator.validate(move, board);
+
+		assertThat(moveValidation, is(MoveValidation.Illegal));
+	}
+
 }

@@ -28,7 +28,9 @@ public class ClassicMoveValidator implements MoveValidator {
 			var enemyColor = move.pieceToMove().getOppositeColor();
 			var peekAheadBoard = board.move(move);
 			var enemiesInFieldOfVision = peekAheadBoard.getPiecesInFieldOfVision(kingPosition, enemyColor);
+			var enemyKnights = peekAheadBoard.getKnightPositions(enemyColor);
 			check = isChecked(kingPosition, board.pieceAt(kingPosition), enemiesInFieldOfVision);
+			check |= isChecked(kingPosition, board.pieceAt(kingPosition), enemyKnights);
 		}
 
 		return !check;
