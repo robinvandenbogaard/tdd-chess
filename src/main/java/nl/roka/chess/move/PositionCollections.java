@@ -7,6 +7,7 @@ public final class PositionCollections {
 	public static final Set<Position> allPositions;
 	public static final Set<Position> diagonalVectors;
 	public static final Set<Position> axisVectors;
+	public static final Set<Position> knightVectors;
 
 	static {
 		Set<Position> options = HashSet.of();
@@ -34,5 +35,18 @@ public final class PositionCollections {
 							 .add(Position.vector(-axis, 0));
 		}
 		axisVectors = options;
+
+		options = HashSet.of();
+		for (int axis = 0; axis < 8; axis++) {
+			options = options.add(Position.vector(-2, 1))
+							 .add(Position.vector(-2, -1))
+							 .add(Position.vector(-1, 2))
+							 .add(Position.vector(1, 2))
+							 .add(Position.vector(2, 1))
+							 .add(Position.vector(2, -1))
+							 .add(Position.vector(-1, -2))
+							 .add(Position.vector(1, -2));
+		}
+		knightVectors = options;
 	}
 }

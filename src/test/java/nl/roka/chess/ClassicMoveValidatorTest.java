@@ -5,6 +5,8 @@ import nl.roka.chess.piece.Piece;
 import nl.roka.chess.piece.PieceFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static nl.roka.chess.move.Position.position;
 import static nl.roka.chess.piece.Piece.emptySpot;
@@ -19,6 +21,7 @@ class ClassicMoveValidatorTest {
 	private Piece blackKnight;
 	private Piece whitePawn;
 	private Piece blackBishop;
+	private Piece whiteKing;
 
 	@BeforeEach
 	void setUp() {
@@ -29,6 +32,7 @@ class ClassicMoveValidatorTest {
 		blackKnight = factory.blackKnight();
 		whitePawn = factory.whitePawn();
 		blackBishop = factory.blackBishop();
+		whiteKing = factory.whiteKing();
 	}
 
 	@Test
@@ -156,6 +160,27 @@ class ClassicMoveValidatorTest {
 	void bishopCannotMoveLikeAKnight() {
 		var move = new Move(position("c1"), blackBishop, position("b3"), emptySpot);
 		var board = BoardBuilder.empty().pieceAt(blackBishop, "c1").build();
+
+		var moveValidation = validator.validate(move, board);
+
+		assertThat(moveValidation, is(MoveValidation.Illegal));
+	}
+
+	@ParameterizedTest
+	@CsvSource(value = {"b2,b3", "b4,b5", "d2,d3", "d4,d5"})
+	void mustMoveKingIfItIsCheckedDiagonal(String pawnPosition, String pawnDestination) {
+		var move = new Move(position(pawnPosition), whitePawn, position(pawnDestination), emptySpot);
+		var board = BoardBuilder.empty()
+								.pieceAt(whiteKing, "c3")
+								.pieceAt(whitePawn, "b2")
+								.pieceAt(whitePawn, "b4")
+								.pieceAt(whitePawn, "d2")
+								.pieceAt(whitePawn, "d4")
+								.pieceAt(blackQueen, "a1")
+								.pieceAt(blackQueen, "a5")
+								.pieceAt(blackQueen, "e1")
+								.pieceAt(blackQueen, "e5")
+								.build();
 
 		var moveValidation = validator.validate(move, board);
 

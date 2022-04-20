@@ -66,7 +66,7 @@ public record Position(int row, int column) {
 		return result;
 	}
 
-	private Position add(Position other) {
+	public Position add(Position other) {
 		return vector(this.row + other.row, this.column + other.column);
 	}
 
@@ -78,6 +78,14 @@ public record Position(int row, int column) {
 		var row = this.row != 0 ? this.row / Math.abs(this.row) : 0;
 		var column = this.column != 0 ? this.column / Math.abs(this.column) : 0;
 		return vector(row, column);
+	}
+
+	public boolean isInBounds() {
+		return isBetween(this.row) && isBetween(this.column);
+	}
+
+	private boolean isBetween(int value) {
+		return value >= 0 && value <= 7;
 	}
 }
 

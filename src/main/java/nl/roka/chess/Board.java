@@ -1,11 +1,19 @@
 package nl.roka.chess;
 
+import io.vavr.collection.HashMap;
+import io.vavr.collection.Map;
 import nl.roka.chess.move.Move;
 import nl.roka.chess.move.Position;
+import nl.roka.chess.piece.Color;
 import nl.roka.chess.piece.Piece;
 import nl.roka.chess.piece.PieceFactory;
+import nl.roka.chess.piece.PieceType;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static nl.roka.chess.move.Position.vector;
 
 public record Board(Piece[][] pieces, PieceFactory factory) {
 
@@ -68,5 +76,32 @@ public record Board(Piece[][] pieces, PieceFactory factory) {
 	private Piece[][] copy() {
 		return Arrays.stream(pieces).
 					 map(Piece[]::clone).toArray(a -> pieces.clone());
+	}
+
+	public Optional<Position> getKingPosition(Color friendlyColor) {
+		for (int row = 0; row < 8; row++) {
+			for (int column = 0; column < 8; column++) {
+				Piece piece = pieces[row][column];
+				if (piece.hasColor(friendlyColor) && piece.isPieceType(PieceType.King))
+					return Optional.of(vector(row, column));
+			}
+		}
+		return Optional.empty();
+	}
+
+	public Map<Position, Piece> getPiecesInFieldOfVision(Position position, Color desiredColor) {
+		Map<Position, Piece> result = HashMap.empty();
+		var diagonalDirections = List.of(vector(1, 1), vector(1, -1), vector(-1, 1), vector(-1, -1));
+		for (var direction : diagonalDirections) {
+			Position curPos = position.add(direction);
+			Piece piece = Piece.emptySpot;
+			while (piece.isEmpty() && curPos.isInBounds()) {
+				piece = pieceAt(curPos);
+				curPos = curPos.add(direction);
+			}
+			if (piece.hasColor(desiredColor))
+				result = result.put(curPos, piece);
+		}
+		return result;
 	}
 }

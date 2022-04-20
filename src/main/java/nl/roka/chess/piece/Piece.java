@@ -21,4 +21,10 @@ public interface Piece {
 	boolean isEmpty();
 
 	boolean isNotEmpty();
+
+	boolean hasColor(Color someColor);
+
+	boolean isPieceType(PieceType type);
+
+	Color getOppositeColor();
 }

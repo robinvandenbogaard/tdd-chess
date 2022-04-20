@@ -6,6 +6,8 @@ import nl.roka.chess.move.Position;
 
 import java.util.Objects;
 
+import static nl.roka.chess.piece.Color.*;
+
 final class PieceEntity implements Piece {
 	private final PieceType type;
 	private final Color color;
@@ -46,6 +48,25 @@ final class PieceEntity implements Piece {
 	@Override
 	public boolean isNotEmpty() {
 		return !isEmpty();
+	}
+
+	@Override
+	public boolean hasColor(Color color) {
+		return this.color.equals(color);
+	}
+
+	@Override
+	public boolean isPieceType(PieceType type) {
+		return this.type.equals(type);
+	}
+
+	@Override
+	public Color getOppositeColor() {
+		return switch (this.color) {
+			case White -> Black;
+			case Black -> White;
+			case None -> None;
+		};
 	}
 
 	@Override
