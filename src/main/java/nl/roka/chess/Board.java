@@ -1,6 +1,7 @@
 package nl.roka.chess;
 
 import io.vavr.collection.HashMap;
+import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import nl.roka.chess.move.Move;
 import nl.roka.chess.move.Position;
@@ -10,7 +11,6 @@ import nl.roka.chess.piece.PieceFactory;
 import nl.roka.chess.piece.PieceType;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static nl.roka.chess.move.Position.vector;
@@ -91,8 +91,16 @@ public record Board(Piece[][] pieces, PieceFactory factory) {
 
 	public Map<Position, Piece> getPiecesInFieldOfVision(Position position, Color desiredColor) {
 		Map<Position, Piece> result = HashMap.empty();
-		var diagonalDirections = List.of(vector(1, 1), vector(1, -1), vector(-1, 1), vector(-1, -1));
-		for (var direction : diagonalDirections) {
+		var diagonalDirections = List.of(vector(1, 1),
+										 vector(1, -1),
+										 vector(-1, 1),
+										 vector(-1, -1));
+		var horizontalDirections = List.of(vector(-1, 0),
+										   vector(1, 0),
+										   vector(0, -1),
+										   vector(0, 1));
+		var allDirections = diagonalDirections.appendAll(horizontalDirections);
+		for (var direction : allDirections) {
 			Position curPos = position.add(direction);
 			Piece piece = Piece.emptySpot;
 			while (piece.isEmpty() && curPos.isInBounds()) {

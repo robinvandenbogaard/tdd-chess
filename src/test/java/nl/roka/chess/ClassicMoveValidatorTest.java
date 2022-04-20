@@ -22,6 +22,7 @@ class ClassicMoveValidatorTest {
 	private Piece whitePawn;
 	private Piece blackBishop;
 	private Piece whiteKing;
+	private Piece whiteQueen;
 
 	@BeforeEach
 	void setUp() {
@@ -33,6 +34,7 @@ class ClassicMoveValidatorTest {
 		whitePawn = factory.whitePawn();
 		blackBishop = factory.blackBishop();
 		whiteKing = factory.whiteKing();
+		whiteQueen = factory.whiteQueen();
 	}
 
 	@Test
@@ -168,7 +170,7 @@ class ClassicMoveValidatorTest {
 
 	@ParameterizedTest
 	@CsvSource(value = {"b2,b3", "b4,b5", "d2,d3", "d4,d5"})
-	void mustMoveKingIfItIsCheckedDiagonal(String pawnPosition, String pawnDestination) {
+	void cannotMakeMoveIfKingWillGetCheckedDiagonal(String pawnPosition, String pawnDestination) {
 		var move = new Move(position(pawnPosition), whitePawn, position(pawnDestination), emptySpot);
 		var board = BoardBuilder.empty()
 								.pieceAt(whiteKing, "c3")
@@ -180,6 +182,27 @@ class ClassicMoveValidatorTest {
 								.pieceAt(blackQueen, "a5")
 								.pieceAt(blackQueen, "e1")
 								.pieceAt(blackQueen, "e5")
+								.build();
+
+		var moveValidation = validator.validate(move, board);
+
+		assertThat(moveValidation, is(MoveValidation.Illegal));
+	}
+
+	@ParameterizedTest
+	@CsvSource(value = {"c2,d2", "c4,d4", "b3,b2", "d3,d2"})
+	void cannotMakeMoveIfKingWillGetCheckedHorizontal(String queenPosition, String queenDestination) {
+		var move = new Move(position(queenPosition), whiteQueen, position(queenDestination), emptySpot);
+		var board = BoardBuilder.empty()
+								.pieceAt(whiteKing, "c3")
+								.pieceAt(whiteQueen, "c2")
+								.pieceAt(whiteQueen, "c4")
+								.pieceAt(whiteQueen, "b3")
+								.pieceAt(whiteQueen, "d3")
+								.pieceAt(blackQueen, "c1")
+								.pieceAt(blackQueen, "c5")
+								.pieceAt(blackQueen, "a3")
+								.pieceAt(blackQueen, "e3")
 								.build();
 
 		var moveValidation = validator.validate(move, board);
