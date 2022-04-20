@@ -223,4 +223,17 @@ class ClassicMoveValidatorTest {
 		assertThat(moveValidation, is(MoveValidation.Illegal));
 	}
 
+	@Test
+	void canCapturePieceCurrentlyAttackingTheKing() {
+		var move = new Move(position("d3"), whitePawn, position("e4"), blackKnight);
+		var board = BoardBuilder.empty()
+								.pieceAt(whiteKing, "c3")
+								.pieceAt(whitePawn, "d3")
+								.pieceAt(blackKnight, "e4")
+								.build();
+		var moveValidation = validator.validate(move, board);
+
+		assertThat(moveValidation, is(MoveValidation.Valid));
+	}
+
 }
