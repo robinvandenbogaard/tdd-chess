@@ -1,10 +1,10 @@
 package nl.roka.chess;
 
 import io.vavr.collection.HashMap;
-import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import nl.roka.chess.move.Move;
 import nl.roka.chess.move.Position;
+import nl.roka.chess.move.PositionCollections;
 import nl.roka.chess.piece.Color;
 import nl.roka.chess.piece.Piece;
 import nl.roka.chess.piece.PieceFactory;
@@ -91,16 +91,8 @@ public record Board(Piece[][] pieces, PieceFactory factory) {
 
 	public Map<Position, Piece> getPiecesInFieldOfVision(Position position, Color desiredColor) {
 		Map<Position, Piece> result = HashMap.empty();
-		var diagonalDirections = List.of(vector(1, 1),
-										 vector(1, -1),
-										 vector(-1, 1),
-										 vector(-1, -1));
-		var horizontalDirections = List.of(vector(-1, 0),
-										   vector(1, 0),
-										   vector(0, -1),
-										   vector(0, 1));
-		var allDirections = diagonalDirections.appendAll(horizontalDirections);
-		for (var direction : allDirections) {
+
+		for (var direction : PositionCollections.allDirections) {
 			Position curPos = position.add(direction);
 			Piece piece = Piece.emptySpot;
 			while (piece.isEmpty() && curPos.isInBounds()) {
